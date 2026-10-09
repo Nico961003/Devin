@@ -1,0 +1,15 @@
+Tengo que redactar una especificación de software y necesito que me ayudes a redactarla.
+Quiero que una aplicación web muestre un gráfico.
+La idea es que el usuario cargue un CSV con un tipo de cambio USD EUR. Te adjunto un archivo de muestra @d:\Documents\PersonalProjects\Devin\englishCourse\graphics\DEXUSEU.csv.
+La aplicación debería analizar el archivo, eliminar los valores que falten y trazar un gráfico de lineas con la fecha en el eje x y el tipo de cambio en el eje y.
+
+El nombre de la aplicación será "Tipo de cambio USD-EUR".
+
+Estas caracteristicas son necesarias:
+1.Un selector de intervalos de tiempo con intervalos predefinidos y el intervalo debe ser de un año, cinco años, diez años y dos como máximo.
+2.Un toltip interactivo con una cruz vertical al pasar el ratón por encima, debe indicar la fecha y el cambio exacto.
+3. Una leyenda y etiquetas, la fecha debe estar en el eje y por año y las etiquetas en el eje x
+
+El resultado debe formatearse como markdown y almasenarse en la raíz de este proyecto, desde un punto de vista técnico me gustaría utilizar Node.js y como front end framework, pero  no sé qué librerías de gráficos usar. Por favor sugiere alguna.
+
+También es muy importante hacer preguyntas de seguimiento antes de generar por si algo que no quede claro.
