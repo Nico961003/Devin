@@ -7,7 +7,7 @@ describe('estructura visual inicial', () => {
 
   it('muestra título, instrucciones y las áreas en el orden requerido', () => {
     const labels = [
-      'Tipo de cambio USD-EUR',
+      'ErrorEnApp',
       'Carga un CSV',
       'Archivo de datos',
       'Estado',

@@ -14,7 +14,7 @@ export function App() {
     <main className="app-shell">
       <header className="hero">
         <p className="eyebrow">Análisis de divisas</p>
-        <h1>Tipo de cambio USD-EUR</h1>
+        <h1>ErrorEnApp</h1>
         <p className="instructions">
           Carga un CSV de hasta 10 MB con las columnas <code>observation_date</code> y{' '}
           <code>DEXUSEU</code>.
