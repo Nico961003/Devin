@@ -40,63 +40,63 @@ Este plan convierte `ESPECIFICACION.md` en incrementos pequeños y verificables.
 
 ## Fase 2 — Procesamiento del CSV en el backend
 
-- [ ] **T04. Validar la estructura básica del CSV**
+- [x] **T04. Validar la estructura básica del CSV**
   - **Objetivo:** reconocer archivos analizables antes de procesar sus filas.
   - **Criterios de aceptación:**
-    - [ ] `csv-parse` acepta UTF-8 con o sin BOM y usa la coma como delimitador.
-    - [ ] Los espacios exteriores de encabezados y campos se eliminan.
-    - [ ] Se exigen exactamente como columnas obligatorias `observation_date` y `DEXUSEU`; las columnas adicionales se ignoran.
-    - [ ] Las líneas completamente vacías se ignoran y no se incluyen en los contadores.
-    - [ ] Un CSV ilegible o sin encabezados obligatorios produce un error de dominio comprobado mediante pruebas unitarias.
+    - [x] `csv-parse` acepta UTF-8 con o sin BOM y usa la coma como delimitador.
+    - [x] Los espacios exteriores de encabezados y campos se eliminan.
+    - [x] Se exigen exactamente como columnas obligatorias `observation_date` y `DEXUSEU`; las columnas adicionales se ignoran.
+    - [x] Las líneas completamente vacías se ignoran y no se incluyen en los contadores.
+    - [x] Un CSV ilegible o sin encabezados obligatorios produce un error de dominio comprobado mediante pruebas unitarias.
 
-- [ ] **T05. Validar y limpiar las filas**
+- [x] **T05. Validar y limpiar las filas**
   - **Objetivo:** separar observaciones válidas de filas descartadas.
   - **Criterios de aceptación:**
-    - [ ] Solo se aceptan fechas reales con formato `AAAA-MM-DD` y sin conversiones de zona horaria.
-    - [ ] `DEXUSEU` solo se acepta si es un número finito mayor que cero y usa punto decimal.
-    - [ ] Las filas con campos vacíos, fechas inválidas o cambios inválidos se descartan sin impedir el uso de las filas correctas.
-    - [ ] El encabezado y las líneas vacías no cuentan como filas de datos.
-    - [ ] Hay pruebas para años bisiestos, fechas imposibles, `NaN`, infinito, cero, negativos y campos vacíos.
+    - [x] Solo se aceptan fechas reales con formato `AAAA-MM-DD` y sin conversiones de zona horaria.
+    - [x] `DEXUSEU` solo se acepta si es un número finito mayor que cero y usa punto decimal.
+    - [x] Las filas con campos vacíos, fechas inválidas o cambios inválidos se descartan sin impedir el uso de las filas correctas.
+    - [x] El encabezado y las líneas vacías no cuentan como filas de datos.
+    - [x] Hay pruebas para años bisiestos, fechas imposibles, `NaN`, infinito, cero, negativos y campos vacíos.
 
-- [ ] **T06. Deduplicar, ordenar y transformar los datos**
+- [x] **T06. Deduplicar, ordenar y transformar los datos**
   - **Objetivo:** generar la colección normalizada que consumirá el frontend.
   - **Criterios de aceptación:**
-    - [ ] Si una fecha está repetida, se conserva la última fila encontrada.
-    - [ ] Las filas duplicadas sustituidas se contabilizan como descartadas.
-    - [ ] Las observaciones se devuelven de la fecha más antigua a la más reciente.
-    - [ ] `usdPerEur` conserva el valor original de `DEXUSEU`.
-    - [ ] `eurPerUsd` se calcula como `1 / DEXUSEU` sin redondeo interno.
-    - [ ] Las pruebas verifican deduplicación, orden y precisión del cálculo inverso.
+    - [x] Si una fecha está repetida, se conserva la última fila encontrada.
+    - [x] Las filas duplicadas sustituidas se contabilizan como descartadas.
+    - [x] Las observaciones se devuelven de la fecha más antigua a la más reciente.
+    - [x] `usdPerEur` conserva el valor original de `DEXUSEU`.
+    - [x] `eurPerUsd` se calcula como `1 / DEXUSEU` sin redondeo interno.
+    - [x] Las pruebas verifican deduplicación, orden y precisión del cálculo inverso.
 
-- [ ] **T07. Calcular el resumen de procesamiento**
+- [x] **T07. Calcular el resumen de procesamiento**
   - **Objetivo:** informar con precisión qué ocurrió durante la limpieza.
   - **Criterios de aceptación:**
-    - [ ] Se calculan `totalRows`, `validRows`, `discardedRows`, `minDate` y `maxDate`.
-    - [ ] Siempre se cumple `totalRows = validRows + discardedRows`.
-    - [ ] `minDate` y `maxDate` proceden exclusivamente de filas válidas.
-    - [ ] Si no queda ninguna fila válida, se genera `NO_VALID_DATA`.
-    - [ ] Las pruebas cubren archivos totalmente válidos, parcialmente válidos y sin datos válidos.
+    - [x] Se calculan `totalRows`, `validRows`, `discardedRows`, `minDate` y `maxDate`.
+    - [x] Siempre se cumple `totalRows = validRows + discardedRows`.
+    - [x] `minDate` y `maxDate` proceden exclusivamente de filas válidas.
+    - [x] Si no queda ninguna fila válida, se genera `NO_VALID_DATA`.
+    - [x] Las pruebas cubren archivos totalmente válidos, parcialmente válidos y sin datos válidos.
 
-- [ ] **T08. Implementar `POST /api/exchange-rates`**
+- [x] **T08. Implementar `POST /api/exchange-rates`**
   - **Objetivo:** exponer el procesamiento mediante la API especificada.
   - **Criterios de aceptación:**
-    - [ ] El endpoint acepta `multipart/form-data` con un único campo `file`.
-    - [ ] Multer mantiene el archivo en memoria y no crea archivos temporales.
-    - [ ] Una petición válida responde `200` con `data` y `summary` conforme al contrato.
-    - [ ] Un archivo ausente responde `400/FILE_REQUIRED`.
-    - [ ] Columnas ausentes, CSV ilegible y ausencia de datos válidos responden con sus códigos previstos.
-    - [ ] Las pruebas de integración ejercitan el endpoint con archivos reales o búferes equivalentes.
+    - [x] El endpoint acepta `multipart/form-data` con un único campo `file`.
+    - [x] Multer mantiene el archivo en memoria y no crea archivos temporales.
+    - [x] Una petición válida responde `200` con `data` y `summary` conforme al contrato.
+    - [x] Un archivo ausente responde `400/FILE_REQUIRED`.
+    - [x] Columnas ausentes, CSV ilegible y ausencia de datos válidos responden con sus códigos previstos.
+    - [x] Las pruebas de integración ejercitan el endpoint con archivos reales o búferes equivalentes.
 
-- [ ] **T09. Aplicar límites y validaciones de seguridad del archivo**
+- [x] **T09. Aplicar límites y validaciones de seguridad del archivo**
   - **Objetivo:** rechazar entradas no admitidas antes de procesarlas.
   - **Criterios de aceptación:**
-    - [ ] El límite predeterminado del archivo es 10 MB y puede configurarse sin superar el máximo funcional de 10 MB de esta versión.
-    - [ ] Un archivo superior al límite responde `413/FILE_TOO_LARGE`.
-    - [ ] Una extensión o tipo no admitido responde `415/UNSUPPORTED_FILE_TYPE`.
-    - [ ] El servidor valida la estructura real además de extensión y tipo declarado.
-    - [ ] El contenido, los valores y el nombre del CSV no se registran ni se interpolan como HTML.
-    - [ ] El búfer deja de estar referenciado al terminar la petición y ninguna prueba detecta escritura en disco.
-    - [ ] Los errores `500/INTERNAL_ERROR` no exponen rutas ni trazas.
+    - [x] El límite predeterminado del archivo es 10 MB y puede configurarse sin superar el máximo funcional de 10 MB de esta versión.
+    - [x] Un archivo superior al límite responde `413/FILE_TOO_LARGE`.
+    - [x] Una extensión o tipo no admitido responde `415/UNSUPPORTED_FILE_TYPE`.
+    - [x] El servidor valida la estructura real además de extensión y tipo declarado.
+    - [x] El contenido, los valores y el nombre del CSV no se registran ni se interpolan como HTML.
+    - [x] El búfer deja de estar referenciado al terminar la petición y ninguna prueba detecta escritura en disco.
+    - [x] Los errores `500/INTERNAL_ERROR` no exponen rutas ni trazas.
 
 ## Fase 3 — Flujo de carga en el frontend
 

@@ -1,6 +1,6 @@
 {
   "name": "tipo-cambio-usd-eur",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -15,15 +15,18 @@
     "test:watch": "vitest --root .",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --config vite.config.js",
-    "build:server": "node --check server/src/app.js && node --check server/src/index.js"
+    "build:server": "node --check server/src/api-error.js && node --check server/src/csv-processor.js && node --check server/src/app.js && node --check server/src/index.js"
   },
   "dependencies": {
+    "csv-parse": "^7.0.3",
     "express": "5.1.0",
+    "multer": "^2.4.0",
     "react": "19.1.1",
     "react-dom": "19.1.1"
   },
   "devDependencies": {
     "concurrently": "9.2.5",
+    "supertest": "^7.1.4",
     "vite": "8.3.1",
     "vitest": "5.0.3"
   },
