@@ -40,153 +40,153 @@ Este plan convierte `ESPECIFICACION.md` en incrementos pequeños y verificables.
 
 ## Fase 2 — Procesamiento del CSV en el backend
 
-- [ ] **T04. Validar la estructura básica del CSV**
+- [x] **T04. Validar la estructura básica del CSV**
   - **Objetivo:** reconocer archivos analizables antes de procesar sus filas.
   - **Criterios de aceptación:**
-    - [ ] `csv-parse` acepta UTF-8 con o sin BOM y usa la coma como delimitador.
-    - [ ] Los espacios exteriores de encabezados y campos se eliminan.
-    - [ ] Se exigen exactamente como columnas obligatorias `observation_date` y `DEXUSEU`; las columnas adicionales se ignoran.
-    - [ ] Las líneas completamente vacías se ignoran y no se incluyen en los contadores.
-    - [ ] Un CSV ilegible o sin encabezados obligatorios produce un error de dominio comprobado mediante pruebas unitarias.
+    - [x] `csv-parse` acepta UTF-8 con o sin BOM y usa la coma como delimitador.
+    - [x] Los espacios exteriores de encabezados y campos se eliminan.
+    - [x] Se exigen exactamente como columnas obligatorias `observation_date` y `DEXUSEU`; las columnas adicionales se ignoran.
+    - [x] Las líneas completamente vacías se ignoran y no se incluyen en los contadores.
+    - [x] Un CSV ilegible o sin encabezados obligatorios produce un error de dominio comprobado mediante pruebas unitarias.
 
-- [ ] **T05. Validar y limpiar las filas**
+- [x] **T05. Validar y limpiar las filas**
   - **Objetivo:** separar observaciones válidas de filas descartadas.
   - **Criterios de aceptación:**
-    - [ ] Solo se aceptan fechas reales con formato `AAAA-MM-DD` y sin conversiones de zona horaria.
-    - [ ] `DEXUSEU` solo se acepta si es un número finito mayor que cero y usa punto decimal.
-    - [ ] Las filas con campos vacíos, fechas inválidas o cambios inválidos se descartan sin impedir el uso de las filas correctas.
-    - [ ] El encabezado y las líneas vacías no cuentan como filas de datos.
-    - [ ] Hay pruebas para años bisiestos, fechas imposibles, `NaN`, infinito, cero, negativos y campos vacíos.
+    - [x] Solo se aceptan fechas reales con formato `AAAA-MM-DD` y sin conversiones de zona horaria.
+    - [x] `DEXUSEU` solo se acepta si es un número finito mayor que cero y usa punto decimal.
+    - [x] Las filas con campos vacíos, fechas inválidas o cambios inválidos se descartan sin impedir el uso de las filas correctas.
+    - [x] El encabezado y las líneas vacías no cuentan como filas de datos.
+    - [x] Hay pruebas para años bisiestos, fechas imposibles, `NaN`, infinito, cero, negativos y campos vacíos.
 
-- [ ] **T06. Deduplicar, ordenar y transformar los datos**
+- [x] **T06. Deduplicar, ordenar y transformar los datos**
   - **Objetivo:** generar la colección normalizada que consumirá el frontend.
   - **Criterios de aceptación:**
-    - [ ] Si una fecha está repetida, se conserva la última fila encontrada.
-    - [ ] Las filas duplicadas sustituidas se contabilizan como descartadas.
-    - [ ] Las observaciones se devuelven de la fecha más antigua a la más reciente.
-    - [ ] `usdPerEur` conserva el valor original de `DEXUSEU`.
-    - [ ] `eurPerUsd` se calcula como `1 / DEXUSEU` sin redondeo interno.
-    - [ ] Las pruebas verifican deduplicación, orden y precisión del cálculo inverso.
+    - [x] Si una fecha está repetida, se conserva la última fila encontrada.
+    - [x] Las filas duplicadas sustituidas se contabilizan como descartadas.
+    - [x] Las observaciones se devuelven de la fecha más antigua a la más reciente.
+    - [x] `usdPerEur` conserva el valor original de `DEXUSEU`.
+    - [x] `eurPerUsd` se calcula como `1 / DEXUSEU` sin redondeo interno.
+    - [x] Las pruebas verifican deduplicación, orden y precisión del cálculo inverso.
 
-- [ ] **T07. Calcular el resumen de procesamiento**
+- [x] **T07. Calcular el resumen de procesamiento**
   - **Objetivo:** informar con precisión qué ocurrió durante la limpieza.
   - **Criterios de aceptación:**
-    - [ ] Se calculan `totalRows`, `validRows`, `discardedRows`, `minDate` y `maxDate`.
-    - [ ] Siempre se cumple `totalRows = validRows + discardedRows`.
-    - [ ] `minDate` y `maxDate` proceden exclusivamente de filas válidas.
-    - [ ] Si no queda ninguna fila válida, se genera `NO_VALID_DATA`.
-    - [ ] Las pruebas cubren archivos totalmente válidos, parcialmente válidos y sin datos válidos.
+    - [x] Se calculan `totalRows`, `validRows`, `discardedRows`, `minDate` y `maxDate`.
+    - [x] Siempre se cumple `totalRows = validRows + discardedRows`.
+    - [x] `minDate` y `maxDate` proceden exclusivamente de filas válidas.
+    - [x] Si no queda ninguna fila válida, se genera `NO_VALID_DATA`.
+    - [x] Las pruebas cubren archivos totalmente válidos, parcialmente válidos y sin datos válidos.
 
-- [ ] **T08. Implementar `POST /api/exchange-rates`**
+- [x] **T08. Implementar `POST /api/exchange-rates`**
   - **Objetivo:** exponer el procesamiento mediante la API especificada.
   - **Criterios de aceptación:**
-    - [ ] El endpoint acepta `multipart/form-data` con un único campo `file`.
-    - [ ] Multer mantiene el archivo en memoria y no crea archivos temporales.
-    - [ ] Una petición válida responde `200` con `data` y `summary` conforme al contrato.
-    - [ ] Un archivo ausente responde `400/FILE_REQUIRED`.
-    - [ ] Columnas ausentes, CSV ilegible y ausencia de datos válidos responden con sus códigos previstos.
-    - [ ] Las pruebas de integración ejercitan el endpoint con archivos reales o búferes equivalentes.
+    - [x] El endpoint acepta `multipart/form-data` con un único campo `file`.
+    - [x] Multer mantiene el archivo en memoria y no crea archivos temporales.
+    - [x] Una petición válida responde `200` con `data` y `summary` conforme al contrato.
+    - [x] Un archivo ausente responde `400/FILE_REQUIRED`.
+    - [x] Columnas ausentes, CSV ilegible y ausencia de datos válidos responden con sus códigos previstos.
+    - [x] Las pruebas de integración ejercitan el endpoint con archivos reales o búferes equivalentes.
 
-- [ ] **T09. Aplicar límites y validaciones de seguridad del archivo**
+- [x] **T09. Aplicar límites y validaciones de seguridad del archivo**
   - **Objetivo:** rechazar entradas no admitidas antes de procesarlas.
   - **Criterios de aceptación:**
-    - [ ] El límite predeterminado del archivo es 10 MB y puede configurarse sin superar el máximo funcional de 10 MB de esta versión.
-    - [ ] Un archivo superior al límite responde `413/FILE_TOO_LARGE`.
-    - [ ] Una extensión o tipo no admitido responde `415/UNSUPPORTED_FILE_TYPE`.
-    - [ ] El servidor valida la estructura real además de extensión y tipo declarado.
-    - [ ] El contenido, los valores y el nombre del CSV no se registran ni se interpolan como HTML.
-    - [ ] El búfer deja de estar referenciado al terminar la petición y ninguna prueba detecta escritura en disco.
-    - [ ] Los errores `500/INTERNAL_ERROR` no exponen rutas ni trazas.
+    - [x] El límite predeterminado del archivo es 10 MB y puede configurarse sin superar el máximo funcional de 10 MB de esta versión.
+    - [x] Un archivo superior al límite responde `413/FILE_TOO_LARGE`.
+    - [x] Una extensión o tipo no admitido responde `415/UNSUPPORTED_FILE_TYPE`.
+    - [x] El servidor valida la estructura real además de extensión y tipo declarado.
+    - [x] El contenido, los valores y el nombre del CSV no se registran ni se interpolan como HTML.
+    - [x] El búfer deja de estar referenciado al terminar la petición y ninguna prueba detecta escritura en disco.
+    - [x] Los errores `500/INTERNAL_ERROR` no exponen rutas ni trazas.
 
 ## Fase 3 — Flujo de carga en el frontend
 
-- [ ] **T10. Implementar el selector de archivo**
+- [x] **T10. Implementar el selector de archivo**
   - **Objetivo:** permitir elegir un CSV desde el navegador.
   - **Criterios de aceptación:**
-    - [ ] El control acepta un solo archivo con extensión `.csv`.
-    - [ ] El frontend comprueba preliminarmente extensión y tamaño de 10 MB.
-    - [ ] Las comprobaciones del cliente no sustituyen el envío y validación autoritativa del servidor.
-    - [ ] Elegir un nuevo archivo reemplaza el resultado anterior sin recargar la página.
-    - [ ] El control tiene nombre accesible, foco visible y funciona con teclado.
+    - [x] El control acepta un solo archivo con extensión `.csv`.
+    - [x] El frontend comprueba preliminarmente extensión y tamaño de 10 MB.
+    - [x] Las comprobaciones del cliente no sustituyen el envío y validación autoritativa del servidor.
+    - [x] Elegir un nuevo archivo reemplaza el resultado anterior sin recargar la página.
+    - [x] El control tiene nombre accesible, foco visible y funciona con teclado.
 
-- [ ] **T11. Conectar la carga con la API**
+- [x] **T11. Conectar la carga con la API**
   - **Objetivo:** enviar el archivo y conservar la respuesta normalizada en memoria.
   - **Criterios de aceptación:**
-    - [ ] El frontend envía `multipart/form-data` a `POST /api/exchange-rates` mediante `fetch`.
-    - [ ] Mientras espera, muestra un estado de procesamiento y evita envíos duplicados.
-    - [ ] Tras el éxito, conserva observaciones y resumen en el estado de React.
-    - [ ] No persiste el CSV ni la respuesta en `localStorage`, `sessionStorage` o IndexedDB.
-    - [ ] La respuesta queda disponible para filtrar sin volver a solicitar el archivo.
+    - [x] El frontend envía `multipart/form-data` a `POST /api/exchange-rates` mediante `fetch`.
+    - [x] Mientras espera, muestra un estado de procesamiento y evita envíos duplicados.
+    - [x] Tras el éxito, conserva observaciones y resumen en el estado de React.
+    - [x] No persiste el CSV ni la respuesta en `localStorage`, `sessionStorage` o IndexedDB.
+    - [x] La respuesta queda disponible para filtrar sin volver a solicitar el archivo.
 
-- [ ] **T12. Mostrar estados, errores y resumen**
+- [x] **T12. Mostrar estados, errores y resumen**
   - **Objetivo:** cubrir los cinco estados de interfaz definidos en la especificación.
   - **Criterios de aceptación:**
-    - [ ] Se distinguen los estados sin archivo, procesando, éxito total, éxito con descartes y error bloqueante.
-    - [ ] El resumen muestra filas leídas, válidas y descartadas.
-    - [ ] Cada código de API produce un mensaje claro y accionable en español.
-    - [ ] Un error bloqueante oculta el gráfico en lugar de mostrar datos vacíos o anteriores.
-    - [ ] Estados y errores se anuncian mediante una región `aria-live`.
+    - [x] Se distinguen los estados sin archivo, procesando, éxito total, éxito con descartes y error bloqueante.
+    - [x] El resumen muestra filas leídas, válidas y descartadas.
+    - [x] Cada código de API produce un mensaje claro y accionable en español.
+    - [x] Un error bloqueante oculta el gráfico en lugar de mostrar datos vacíos o anteriores.
+    - [x] Estados y errores se anuncian mediante una región `aria-live`.
 
 ## Fase 4 — Filtros temporales
 
-- [ ] **T13. Implementar el cálculo de intervalos**
+- [x] **T13. Implementar el cálculo de intervalos**
   - **Objetivo:** crear una función pura que filtre observaciones por años naturales.
   - **Criterios de aceptación:**
-    - [ ] La fecha de referencia es la observación válida más reciente, no la fecha actual.
-    - [ ] Existen intervalos de 1, 2, 5 y 10 años.
-    - [ ] Ambos extremos del intervalo son inclusivos.
-    - [ ] El cálculo no desplaza fechas por zona horaria.
-    - [ ] Si no hay historia suficiente, se devuelven todos los puntos disponibles del periodo.
-    - [ ] Las pruebas incluyen el ejemplo `2024-08-22` a `2025-08-22` para 1 año y un caso de 29 de febrero.
+    - [x] La fecha de referencia es la observación válida más reciente, no la fecha actual.
+    - [x] Existen intervalos de 1, 2, 5 y 10 años.
+    - [x] Ambos extremos del intervalo son inclusivos.
+    - [x] El cálculo no desplaza fechas por zona horaria.
+    - [x] Si no hay historia suficiente, se devuelven todos los puntos disponibles del periodo.
+    - [x] Las pruebas incluyen el ejemplo `2024-08-22` a `2025-08-22` para 1 año y un caso de 29 de febrero.
 
-- [ ] **T14. Construir el selector de intervalos**
+- [x] **T14. Construir el selector de intervalos**
   - **Objetivo:** permitir cambiar el rango visible sin tocar el servidor.
   - **Criterios de aceptación:**
-    - [ ] El selector ofrece exactamente 1, 2, 5 y 10 años.
-    - [ ] El intervalo inicial seleccionado es 1 año.
-    - [ ] Cambiar de opción actualiza ambas series.
-    - [ ] Después de la carga inicial, cambiar el intervalo no genera peticiones de red.
-    - [ ] La opción activa se identifica visualmente y mediante `aria-pressed` o semántica equivalente.
+    - [x] El selector ofrece exactamente 1, 2, 5 y 10 años.
+    - [x] El intervalo inicial seleccionado es 1 año.
+    - [x] Cambiar de opción actualiza ambas series.
+    - [x] Después de la carga inicial, cambiar el intervalo no genera peticiones de red.
+    - [x] La opción activa se identifica visualmente y mediante `aria-pressed` o semántica equivalente.
 
 ## Fase 5 — Gráfico
 
-- [ ] **T15. Renderizar el gráfico base con Apache ECharts**
+- [x] **T15. Renderizar el gráfico base con Apache ECharts**
   - **Objetivo:** mostrar la serie original con la orientación de ejes acordada.
   - **Criterios de aceptación:**
-    - [ ] El gráfico se integra mediante `echarts-for-react`.
-    - [ ] El eje X es numérico, lleva la etiqueta **Tipo de cambio** y el eje Y es temporal.
-    - [ ] Los datos se proporcionan como `[tipoDeCambio, fecha]`.
-    - [ ] El eje Y muestra referencias anuales legibles.
-    - [ ] Los puntos mantienen el orden cronológico en sentido vertical.
-    - [ ] El gráfico cambia de tamaño con su contenedor.
+    - [x] El gráfico se integra mediante `echarts-for-react`.
+    - [x] El eje X es numérico, lleva la etiqueta **Tipo de cambio** y el eje Y es temporal.
+    - [x] Los datos se proporcionan como `[tipoDeCambio, fecha]`.
+    - [x] El eje Y muestra referencias anuales legibles.
+    - [x] Los puntos mantienen el orden cronológico en sentido vertical.
+    - [x] El gráfico cambia de tamaño con su contenedor.
 
-- [ ] **T16. Añadir ambas cotizaciones y la leyenda**
+- [x] **T16. Añadir ambas cotizaciones y la leyenda**
   - **Objetivo:** comparar la cotización original y su inversa.
   - **Criterios de aceptación:**
-    - [ ] Se muestran las series **USD por EUR** y **EUR por USD** sobre la misma escala numérica.
-    - [ ] Cada serie usa un color y un estilo de línea distinguibles.
-    - [ ] La leyenda identifica ambas unidades.
-    - [ ] La leyenda permite activar y desactivar cada serie.
-    - [ ] Ocultar una serie no altera ni recalcula sus datos.
+    - [x] Se muestran las series **USD por EUR** y **EUR por USD** sobre la misma escala numérica.
+    - [x] Cada serie usa un color y un estilo de línea distinguibles.
+    - [x] La leyenda identifica ambas unidades.
+    - [x] La leyenda permite activar y desactivar cada serie.
+    - [x] Ocultar una serie no altera ni recalcula sus datos.
 
-- [ ] **T17. Implementar tooltip y cruz interactiva**
+- [x] **T17. Implementar tooltip y cruz interactiva**
   - **Objetivo:** consultar con precisión la observación más próxima al puntero.
   - **Criterios de aceptación:**
-    - [ ] Al pasar el puntero aparece un `axisPointer` de tipo cruz con líneas vertical y horizontal.
-    - [ ] El tooltip localiza la observación visible más próxima.
-    - [ ] Muestra la fecha exacta, USD por EUR y EUR por USD.
-    - [ ] El valor original presenta hasta 4 decimales y el inverso hasta 6, sin cambiar los valores internos.
-    - [ ] Fechas y números visibles usan formato español y separador decimal local.
+    - [x] Al pasar el puntero aparece un `axisPointer` de tipo cruz con líneas vertical y horizontal.
+    - [x] El tooltip localiza la observación visible más próxima.
+    - [x] Muestra la fecha exacta, USD por EUR y EUR por USD.
+    - [x] El valor original presenta hasta 4 decimales y el inverso hasta 6, sin cambiar los valores internos.
+    - [x] Fechas y números visibles usan formato español y separador decimal local.
 
-- [ ] **T18. Añadir navegación del gráfico por teclado**
+- [x] **T18. Añadir navegación del gráfico por teclado**
   - **Objetivo:** ofrecer una alternativa funcional al uso del puntero.
   - **Criterios de aceptación:**
-    - [ ] El gráfico puede recibir foco y tiene una descripción textual de ejes e interacción.
-    - [ ] Las flechas arriba y abajo recorren las observaciones del intervalo visible.
-    - [ ] La observación seleccionada abre o actualiza el tooltip.
-    - [ ] Fecha y ambas cotizaciones se anuncian en una región `aria-live`.
-    - [ ] `Escape` oculta el tooltip activo.
-    - [ ] Las pruebas de interfaz cubren todo el recorrido de teclado.
+    - [x] El gráfico puede recibir foco y tiene una descripción textual de ejes e interacción.
+    - [x] Las flechas arriba y abajo recorren las observaciones del intervalo visible.
+    - [x] La observación seleccionada abre o actualiza el tooltip.
+    - [x] Fecha y ambas cotizaciones se anuncian en una región `aria-live`.
+    - [x] `Escape` oculta el tooltip activo.
+    - [x] Las pruebas de interfaz cubren todo el recorrido de teclado.
 
 ## Fase 6 — Presentación, accesibilidad y compatibilidad
 
