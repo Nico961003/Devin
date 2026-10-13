@@ -100,93 +100,93 @@ Este plan convierte `ESPECIFICACION.md` en incrementos pequeños y verificables.
 
 ## Fase 3 — Flujo de carga en el frontend
 
-- [ ] **T10. Implementar el selector de archivo**
+- [x] **T10. Implementar el selector de archivo**
   - **Objetivo:** permitir elegir un CSV desde el navegador.
   - **Criterios de aceptación:**
-    - [ ] El control acepta un solo archivo con extensión `.csv`.
-    - [ ] El frontend comprueba preliminarmente extensión y tamaño de 10 MB.
-    - [ ] Las comprobaciones del cliente no sustituyen el envío y validación autoritativa del servidor.
-    - [ ] Elegir un nuevo archivo reemplaza el resultado anterior sin recargar la página.
-    - [ ] El control tiene nombre accesible, foco visible y funciona con teclado.
+    - [x] El control acepta un solo archivo con extensión `.csv`.
+    - [x] El frontend comprueba preliminarmente extensión y tamaño de 10 MB.
+    - [x] Las comprobaciones del cliente no sustituyen el envío y validación autoritativa del servidor.
+    - [x] Elegir un nuevo archivo reemplaza el resultado anterior sin recargar la página.
+    - [x] El control tiene nombre accesible, foco visible y funciona con teclado.
 
-- [ ] **T11. Conectar la carga con la API**
+- [x] **T11. Conectar la carga con la API**
   - **Objetivo:** enviar el archivo y conservar la respuesta normalizada en memoria.
   - **Criterios de aceptación:**
-    - [ ] El frontend envía `multipart/form-data` a `POST /api/exchange-rates` mediante `fetch`.
-    - [ ] Mientras espera, muestra un estado de procesamiento y evita envíos duplicados.
-    - [ ] Tras el éxito, conserva observaciones y resumen en el estado de React.
-    - [ ] No persiste el CSV ni la respuesta en `localStorage`, `sessionStorage` o IndexedDB.
-    - [ ] La respuesta queda disponible para filtrar sin volver a solicitar el archivo.
+    - [x] El frontend envía `multipart/form-data` a `POST /api/exchange-rates` mediante `fetch`.
+    - [x] Mientras espera, muestra un estado de procesamiento y evita envíos duplicados.
+    - [x] Tras el éxito, conserva observaciones y resumen en el estado de React.
+    - [x] No persiste el CSV ni la respuesta en `localStorage`, `sessionStorage` o IndexedDB.
+    - [x] La respuesta queda disponible para filtrar sin volver a solicitar el archivo.
 
-- [ ] **T12. Mostrar estados, errores y resumen**
+- [x] **T12. Mostrar estados, errores y resumen**
   - **Objetivo:** cubrir los cinco estados de interfaz definidos en la especificación.
   - **Criterios de aceptación:**
-    - [ ] Se distinguen los estados sin archivo, procesando, éxito total, éxito con descartes y error bloqueante.
-    - [ ] El resumen muestra filas leídas, válidas y descartadas.
-    - [ ] Cada código de API produce un mensaje claro y accionable en español.
-    - [ ] Un error bloqueante oculta el gráfico en lugar de mostrar datos vacíos o anteriores.
-    - [ ] Estados y errores se anuncian mediante una región `aria-live`.
+    - [x] Se distinguen los estados sin archivo, procesando, éxito total, éxito con descartes y error bloqueante.
+    - [x] El resumen muestra filas leídas, válidas y descartadas.
+    - [x] Cada código de API produce un mensaje claro y accionable en español.
+    - [x] Un error bloqueante oculta el gráfico en lugar de mostrar datos vacíos o anteriores.
+    - [x] Estados y errores se anuncian mediante una región `aria-live`.
 
 ## Fase 4 — Filtros temporales
 
-- [ ] **T13. Implementar el cálculo de intervalos**
+- [x] **T13. Implementar el cálculo de intervalos**
   - **Objetivo:** crear una función pura que filtre observaciones por años naturales.
   - **Criterios de aceptación:**
-    - [ ] La fecha de referencia es la observación válida más reciente, no la fecha actual.
-    - [ ] Existen intervalos de 1, 2, 5 y 10 años.
-    - [ ] Ambos extremos del intervalo son inclusivos.
-    - [ ] El cálculo no desplaza fechas por zona horaria.
-    - [ ] Si no hay historia suficiente, se devuelven todos los puntos disponibles del periodo.
-    - [ ] Las pruebas incluyen el ejemplo `2024-08-22` a `2025-08-22` para 1 año y un caso de 29 de febrero.
+    - [x] La fecha de referencia es la observación válida más reciente, no la fecha actual.
+    - [x] Existen intervalos de 1, 2, 5 y 10 años.
+    - [x] Ambos extremos del intervalo son inclusivos.
+    - [x] El cálculo no desplaza fechas por zona horaria.
+    - [x] Si no hay historia suficiente, se devuelven todos los puntos disponibles del periodo.
+    - [x] Las pruebas incluyen el ejemplo `2024-08-22` a `2025-08-22` para 1 año y un caso de 29 de febrero.
 
-- [ ] **T14. Construir el selector de intervalos**
+- [x] **T14. Construir el selector de intervalos**
   - **Objetivo:** permitir cambiar el rango visible sin tocar el servidor.
   - **Criterios de aceptación:**
-    - [ ] El selector ofrece exactamente 1, 2, 5 y 10 años.
-    - [ ] El intervalo inicial seleccionado es 1 año.
-    - [ ] Cambiar de opción actualiza ambas series.
-    - [ ] Después de la carga inicial, cambiar el intervalo no genera peticiones de red.
-    - [ ] La opción activa se identifica visualmente y mediante `aria-pressed` o semántica equivalente.
+    - [x] El selector ofrece exactamente 1, 2, 5 y 10 años.
+    - [x] El intervalo inicial seleccionado es 1 año.
+    - [x] Cambiar de opción actualiza ambas series.
+    - [x] Después de la carga inicial, cambiar el intervalo no genera peticiones de red.
+    - [x] La opción activa se identifica visualmente y mediante `aria-pressed` o semántica equivalente.
 
 ## Fase 5 — Gráfico
 
-- [ ] **T15. Renderizar el gráfico base con Apache ECharts**
+- [x] **T15. Renderizar el gráfico base con Apache ECharts**
   - **Objetivo:** mostrar la serie original con la orientación de ejes acordada.
   - **Criterios de aceptación:**
-    - [ ] El gráfico se integra mediante `echarts-for-react`.
-    - [ ] El eje X es numérico, lleva la etiqueta **Tipo de cambio** y el eje Y es temporal.
-    - [ ] Los datos se proporcionan como `[tipoDeCambio, fecha]`.
-    - [ ] El eje Y muestra referencias anuales legibles.
-    - [ ] Los puntos mantienen el orden cronológico en sentido vertical.
-    - [ ] El gráfico cambia de tamaño con su contenedor.
+    - [x] El gráfico se integra mediante `echarts-for-react`.
+    - [x] El eje X es numérico, lleva la etiqueta **Tipo de cambio** y el eje Y es temporal.
+    - [x] Los datos se proporcionan como `[tipoDeCambio, fecha]`.
+    - [x] El eje Y muestra referencias anuales legibles.
+    - [x] Los puntos mantienen el orden cronológico en sentido vertical.
+    - [x] El gráfico cambia de tamaño con su contenedor.
 
-- [ ] **T16. Añadir ambas cotizaciones y la leyenda**
+- [x] **T16. Añadir ambas cotizaciones y la leyenda**
   - **Objetivo:** comparar la cotización original y su inversa.
   - **Criterios de aceptación:**
-    - [ ] Se muestran las series **USD por EUR** y **EUR por USD** sobre la misma escala numérica.
-    - [ ] Cada serie usa un color y un estilo de línea distinguibles.
-    - [ ] La leyenda identifica ambas unidades.
-    - [ ] La leyenda permite activar y desactivar cada serie.
-    - [ ] Ocultar una serie no altera ni recalcula sus datos.
+    - [x] Se muestran las series **USD por EUR** y **EUR por USD** sobre la misma escala numérica.
+    - [x] Cada serie usa un color y un estilo de línea distinguibles.
+    - [x] La leyenda identifica ambas unidades.
+    - [x] La leyenda permite activar y desactivar cada serie.
+    - [x] Ocultar una serie no altera ni recalcula sus datos.
 
-- [ ] **T17. Implementar tooltip y cruz interactiva**
+- [x] **T17. Implementar tooltip y cruz interactiva**
   - **Objetivo:** consultar con precisión la observación más próxima al puntero.
   - **Criterios de aceptación:**
-    - [ ] Al pasar el puntero aparece un `axisPointer` de tipo cruz con líneas vertical y horizontal.
-    - [ ] El tooltip localiza la observación visible más próxima.
-    - [ ] Muestra la fecha exacta, USD por EUR y EUR por USD.
-    - [ ] El valor original presenta hasta 4 decimales y el inverso hasta 6, sin cambiar los valores internos.
-    - [ ] Fechas y números visibles usan formato español y separador decimal local.
+    - [x] Al pasar el puntero aparece un `axisPointer` de tipo cruz con líneas vertical y horizontal.
+    - [x] El tooltip localiza la observación visible más próxima.
+    - [x] Muestra la fecha exacta, USD por EUR y EUR por USD.
+    - [x] El valor original presenta hasta 4 decimales y el inverso hasta 6, sin cambiar los valores internos.
+    - [x] Fechas y números visibles usan formato español y separador decimal local.
 
-- [ ] **T18. Añadir navegación del gráfico por teclado**
+- [x] **T18. Añadir navegación del gráfico por teclado**
   - **Objetivo:** ofrecer una alternativa funcional al uso del puntero.
   - **Criterios de aceptación:**
-    - [ ] El gráfico puede recibir foco y tiene una descripción textual de ejes e interacción.
-    - [ ] Las flechas arriba y abajo recorren las observaciones del intervalo visible.
-    - [ ] La observación seleccionada abre o actualiza el tooltip.
-    - [ ] Fecha y ambas cotizaciones se anuncian en una región `aria-live`.
-    - [ ] `Escape` oculta el tooltip activo.
-    - [ ] Las pruebas de interfaz cubren todo el recorrido de teclado.
+    - [x] El gráfico puede recibir foco y tiene una descripción textual de ejes e interacción.
+    - [x] Las flechas arriba y abajo recorren las observaciones del intervalo visible.
+    - [x] La observación seleccionada abre o actualiza el tooltip.
+    - [x] Fecha y ambas cotizaciones se anuncian en una región `aria-live`.
+    - [x] `Escape` oculta el tooltip activo.
+    - [x] Las pruebas de interfaz cubren todo el recorrido de teclado.
 
 ## Fase 6 — Presentación, accesibilidad y compatibilidad
 
