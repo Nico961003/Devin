@@ -42,11 +42,11 @@ export function createChartOption(observations) {
       trigger: 'axis',
       axisPointer: {
         type: 'cross',
-        axis: 'y',
+        axis: 'x',
         snap: true,
       },
       formatter: (params) => {
-        const date = params?.[0]?.value?.[1]
+        const date = params?.[0]?.value?.[0]
         const observation = observationsByDate.get(date)
         return observation ? formatObservationTooltip(observation) : ''
       },
@@ -56,17 +56,17 @@ export function createChartOption(observations) {
       selectedMode: true,
     },
     xAxis: {
+      type: 'time',
+      axisLabel: {
+        formatter: (value) => String(new Date(value).getUTCFullYear()),
+      },
+    },
+    yAxis: {
       type: 'value',
       name: 'Tipo de cambio',
       nameLocation: 'middle',
       nameGap: 40,
       scale: true,
-    },
-    yAxis: {
-      type: 'time',
-      axisLabel: {
-        formatter: (value) => String(new Date(value).getUTCFullYear()),
-      },
     },
     series: [
       {
@@ -77,7 +77,7 @@ export function createChartOption(observations) {
         progressive: 5000,
         lineStyle: { color: '#1d4ed8', type: 'solid', width: 2 },
         itemStyle: { color: '#1d4ed8' },
-        data: sortedObservations.map((observation) => [observation.usdPerEur, observation.date]),
+        data: sortedObservations.map((observation) => [observation.date, observation.usdPerEur]),
       },
       {
         name: 'EUR por USD',
@@ -87,7 +87,7 @@ export function createChartOption(observations) {
         progressive: 5000,
         lineStyle: { color: '#b45309', type: 'dashed', width: 2 },
         itemStyle: { color: '#b45309' },
-        data: sortedObservations.map((observation) => [observation.eurPerUsd, observation.date]),
+        data: sortedObservations.map((observation) => [observation.date, observation.eurPerUsd]),
       },
     ],
   }

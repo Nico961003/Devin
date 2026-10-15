@@ -1,4 +1,4 @@
-import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import { useId, useMemo, useRef, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
 import { createChartOption, formatObservationAnnouncement } from './chart-options.js'
 
@@ -10,11 +10,17 @@ export function ExchangeRateChart({ observations }) {
     [observations],
   )
   const [activeIndex, setActiveIndex] = useState(-1)
-  const activeObservation = sortedObservations[activeIndex]
+  const [previousObservations, setPreviousObservations] = useState(sortedObservations)
 
-  useEffect(() => {
+  // Reinicia la observación activa cuando cambian las observaciones visibles
+  // (p. ej. al cambiar de intervalo) ajustando el estado durante el propio
+  // render, en lugar de con un efecto, para evitar un repintado en cascada.
+  if (previousObservations !== sortedObservations) {
+    setPreviousObservations(sortedObservations)
     setActiveIndex(-1)
-  }, [sortedObservations])
+  }
+
+  const activeObservation = sortedObservations[activeIndex]
 
   function showObservation(index) {
     setActiveIndex(index)
@@ -56,7 +62,7 @@ export function ExchangeRateChart({ observations }) {
       onKeyDown={handleKeyDown}
     >
       <p id={descriptionId} className="chart-description">
-        El eje horizontal representa el tipo de cambio y el eje vertical representa la fecha. Usa las flechas arriba y abajo para recorrer las observaciones y Escape para cerrar el tooltip.
+        El eje horizontal representa la fecha y el eje vertical representa el tipo de cambio. Usa las flechas arriba y abajo para recorrer las observaciones y Escape para cerrar el tooltip.
       </p>
       <p className="sr-only">{sortedObservations.length} observaciones en el intervalo seleccionado.</p>
       <ReactECharts

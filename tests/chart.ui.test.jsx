@@ -15,21 +15,21 @@ const observations = [
 afterEach(cleanup)
 
 describe('gráfico base', () => {
-  it('configura el tipo de cambio en X y la fecha en Y', () => {
+  it('configura la fecha en X y el tipo de cambio en Y', () => {
     const option = createChartOption(observations)
 
-    expect(option.xAxis.type).toBe('value')
-    expect(option.xAxis.name).toBe('Tipo de cambio')
-    expect(option.yAxis.type).toBe('time')
-    expect(option.yAxis.axisLabel.formatter(Date.UTC(2025, 0, 1))).toBe('2025')
+    expect(option.xAxis.type).toBe('time')
+    expect(option.xAxis.axisLabel.formatter(Date.UTC(2025, 0, 1))).toBe('2025')
+    expect(option.yAxis.type).toBe('value')
+    expect(option.yAxis.name).toBe('Tipo de cambio')
   })
 
-  it('proporciona pares [tipo de cambio, fecha] en orden cronológico', () => {
+  it('proporciona pares [fecha, tipo de cambio] en orden cronológico', () => {
     const option = createChartOption(observations)
 
     expect(option.series[0].data).toEqual([
-      [1.1, '2024-01-02'],
-      [1.2, '2025-01-02'],
+      ['2024-01-02', 1.1],
+      ['2025-01-02', 1.2],
     ])
   })
 
@@ -37,8 +37,8 @@ describe('gráfico base', () => {
     render(<ExchangeRateChart observations={observations} />)
     const chart = screen.getByTestId('echarts')
 
-    expect(chart.getAttribute('data-x-axis')).toBe('value')
-    expect(chart.getAttribute('data-y-axis')).toBe('time')
+    expect(chart.getAttribute('data-x-axis')).toBe('time')
+    expect(chart.getAttribute('data-y-axis')).toBe('value')
     expect(chart.style.width).toBe('100%')
   })
 })
@@ -57,8 +57,8 @@ describe('series y leyenda', () => {
 
     expect(option.series[0].lineStyle).toMatchObject({ color: '#1d4ed8', type: 'solid' })
     expect(option.series[1].lineStyle).toMatchObject({ color: '#b45309', type: 'dashed' })
-    expect(option.series[0].data[0]).toEqual([1.1, '2024-01-02'])
-    expect(option.series[1].data[0]).toEqual([1 / 1.1, '2024-01-02'])
+    expect(option.series[0].data[0]).toEqual(['2024-01-02', 1.1])
+    expect(option.series[1].data[0]).toEqual(['2024-01-02', 1 / 1.1])
   })
 })
 
@@ -67,7 +67,7 @@ describe('tooltip y cruz', () => {
     const option = createChartOption(observations)
 
     expect(option.tooltip.trigger).toBe('axis')
-    expect(option.tooltip.axisPointer).toEqual({ type: 'cross', axis: 'y', snap: true })
+    expect(option.tooltip.axisPointer).toEqual({ type: 'cross', axis: 'x', snap: true })
   })
 
   it('muestra fecha y ambas cotizaciones con formato español y precisión visual', () => {
@@ -83,7 +83,7 @@ describe('tooltip y cruz', () => {
 
   it('localiza la observación visible por su fecha', () => {
     const option = createChartOption(observations)
-    const tooltip = option.tooltip.formatter([{ value: [1.2, '2025-01-02'] }])
+    const tooltip = option.tooltip.formatter([{ value: ['2025-01-02', 1.2] }])
 
     expect(tooltip).toContain('2 de enero de 2025')
     expect(tooltip).toContain('USD por EUR')
@@ -99,7 +99,7 @@ describe('navegación por teclado', () => {
     chart.focus()
 
     expect(document.activeElement).toBe(chart)
-    expect(screen.getByText(/El eje horizontal representa el tipo de cambio/)).toBeTruthy()
+    expect(screen.getByText(/El eje horizontal representa la fecha/)).toBeTruthy()
     expect(chart.getAttribute('aria-describedby')).toBeTruthy()
   })
 

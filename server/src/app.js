@@ -1,9 +1,13 @@
+import { existsSync } from 'node:fs'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import express from 'express'
 import multer from 'multer'
 import { API_ERROR_CODES, createApiError } from '../../shared/contracts.js'
 import { ApiError } from './api-error.js'
 import { processCsv } from './csv-processor.js'
+
+const DIST_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../dist')
 
 export const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024
 
@@ -68,6 +72,15 @@ export function createApp({ processor = processCsv, fileSizeLimitBytes } = {}) {
       releaseFileBuffer(request.file)
     }
   })
+
+  // Sirve el frontend compilado (npm run build) cuando dist/ existe, para
+  // poder desplegar frontend y backend desde un único proceso en producción.
+  if (existsSync(DIST_DIR)) {
+    app.use(express.static(DIST_DIR))
+    app.get(/^(?!\/api\/).*/, (_request, response) => {
+      response.sendFile(path.join(DIST_DIR, 'index.html'))
+    })
+  }
 
   app.use((error, _request, response, _next) => {
     if (error instanceof multer.MulterError && error.code === 'LIMIT_FILE_SIZE') {

@@ -13,7 +13,7 @@ La primera versión deberá:
 - descartar las filas sin fecha o sin tipo de cambio válido;
 - calcular y mostrar ambas cotizaciones: USD por EUR y EUR por USD;
 - permitir filtrar la visualización a 1, 2, 5 o 10 años;
-- representar el tipo de cambio en el eje X y la fecha en el eje Y;
+- representar la fecha en el eje X y el tipo de cambio en el eje Y;
 - ofrecer una leyenda, etiquetas de ejes y un tooltip interactivo con una cruz completa.
 
 Quedan fuera del alcance inicial la autenticación, el almacenamiento permanente de archivos, la edición manual de datos y la consulta automática a proveedores externos de tipos de cambio.
@@ -76,16 +76,16 @@ Si no queda ninguna observación válida, no se mostrará el gráfico y se prese
 ### RF-03. Gráfico de líneas
 
 - El gráfico deberá usar **Apache ECharts**.
-- El eje X será numérico y representará el tipo de cambio.
-- El eje Y será temporal y representará la fecha.
-- Las marcas principales del eje Y deberán identificar los años.
-- El eje X deberá llevar la etiqueta **Tipo de cambio**; la unidad concreta se identificará mediante el nombre de cada serie para evitar atribuir una sola unidad a ambas cotizaciones.
+- El eje X será temporal y representará la fecha.
+- El eje Y será numérico y representará el tipo de cambio.
+- Las marcas principales del eje X deberán identificar los años.
+- El eje Y deberá llevar la etiqueta **Tipo de cambio**; la unidad concreta se identificará mediante el nombre de cada serie para evitar atribuir una sola unidad a ambas cotizaciones.
 - Se mostrarán dos series de líneas sobre la misma escala numérica:
   - **USD por EUR**: valor original de `DEXUSEU`;
   - **EUR por USD**: valor calculado como `1 / DEXUSEU`.
-- Cada punto se proporcionará a ECharts como el par `[tipoDeCambio, fecha]`, de acuerdo con la orientación elegida de los ejes.
+- Cada punto se proporcionará a ECharts como el par `[fecha, tipoDeCambio]`, de acuerdo con la orientación elegida de los ejes.
 - La leyenda deberá permitir identificar y activar o desactivar cada serie.
-- Los datos deberán mantener el orden cronológico en sentido vertical.
+- Los datos deberán mantener el orden cronológico en sentido horizontal.
 - El gráfico deberá reajustarse al tamaño de su contenedor.
 
 ### RF-04. Selector de intervalo
@@ -282,7 +282,7 @@ La aplicación deberá funcionar en las dos versiones estables más recientes de
 
 1. Dado un CSV de hasta 10 MB con `observation_date` y `DEXUSEU`, cuando el usuario lo carga, la aplicación representa todas las filas válidas y omite las incompletas o inválidas.
 2. Dado el archivo de muestra `DEXUSEU.csv`, la aplicación reconoce los valores vacíos sin impedir la generación del gráfico.
-3. El gráfico muestra el tipo de cambio en el eje X y la fecha en el eje Y, con referencias anuales visibles en el eje temporal.
+3. El gráfico muestra la fecha en el eje X y el tipo de cambio en el eje Y, con referencias anuales visibles en el eje temporal.
 4. La leyenda identifica las series USD por EUR y EUR por USD y permite alternar su visibilidad.
 5. El selector ofrece exactamente 1, 2, 5 y 10 años, filtra con límites inclusivos desde la fecha más reciente del archivo y no genera nuevas peticiones de red.
 6. Al pasar el puntero por una observación, aparece una cruz completa y un tooltip con fecha y ambas cotizaciones.
